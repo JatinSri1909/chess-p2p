@@ -54,7 +54,7 @@ export default function GamePage() {
                   remoteUserId={match ? (match.player1 === userId ? match.player2 : match.player1) : null}
                 />
               </div>
-              <Button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white aspect-square lg:aspect-auto w-full text-[2rem]">
+              <Button className="mt-4 bg-green-600 hover:bg-green-700 text-white aspect-square lg:aspect-auto w-full text-[2rem]">
                 <ChevronRight className="mr-2" style={{ width: "32px", height: "32px" }} />
                 <span className="hidden lg:inline">Next Player</span>
               </Button>
@@ -70,11 +70,7 @@ export default function GamePage() {
               <div className="flex-grow overflow-y-auto">
                 <MovesList moves={moves} />
               </div>
-              <div className="grid grid-cols-2 gap-2 lg:flex lg:flex-col mt-4">
-                <Button className="mb-2 bg-green-600 hover:bg-green-700 text-white aspect-square lg:aspect-auto w-full">
-                  <Play className="mr-2" style={{ width: "32px", height: "32px" }} />
-                  <span className="hidden lg:inline text-[2rem]">Play Match</span>
-                </Button>
+              <div className="grid grid-cols-1 mt-4">
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white aspect-square lg:aspect-auto w-full">
                   <Plus className="mr-2" style={{ width: "32px", height: "32px" }} />
                   <span className="hidden lg:inline text-[2rem]">New Match</span>
