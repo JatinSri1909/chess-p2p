@@ -30,6 +30,7 @@ function VideoStream({
           autoPlay
           playsInline
           muted={label === "You"}
+          style={{ transform: "scaleX(-1)" }}
           className="w-full h-full object-cover rounded-lg bg-gray-700"
         />
       </div>
@@ -41,9 +42,9 @@ function VideoStream({
 function PlayerPlaceholder({ label }: { label: string }) {
   return (
     <div className="relative w-full pt-[75%]">
-      <div className="absolute inset-0 bg-[hsl(var(--muted))] border border-[hsl(var(--border))] rounded-lg p-6 flex flex-col items-center justify-center">
-        <User className="w-1/3 h-1/3 text-gray-400" />
-        <span className="mt-4 text-lg text-gray-400">{label}</span>
+      <div className="absolute inset-0 bg-muted border border-border rounded-lg p-6 flex flex-col items-center justify-center">
+        <User className="w-1/3 h-1/3 text-muted-foreground" />
+        <span className="mt-4 text-lg text-muted-foreground">{label}</span>
       </div>
     </div>
   );
@@ -53,7 +54,7 @@ function PlayerPlaceholder({ label }: { label: string }) {
 interface VideoCallProps {
   userId: string;
   remoteUserId: string | null;
-  className?: string; // <-- Added this optional property
+  className?: string;
 }
 
 export default function VideoCall({ userId, remoteUserId, className }: VideoCallProps) {
