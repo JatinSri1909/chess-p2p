@@ -2,11 +2,13 @@ import { createClient } from "redis";
 
 // Create a Redis client with configuration from environment variables
 const client = createClient({
-  password: process.env.REDIS_PASSWORD,
   socket: {
     host: process.env.REDIS_HOST,
-    port: 11071,
+    port: parseInt(process.env.REDIS_PORT || '19166'),
+    tls: process.env.REDIS_TLS === 'true', // Will be false
+    connectTimeout: 10000,
   },
+  password: process.env.REDIS_PASSWORD,
 });
 
 // Handle Redis client errors
