@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { addToQueue, findOpponent, saveMatch, getMatch } from "@/lib/matchmaking";
 import { v4 as uuidv4 } from 'uuid';
 import { Match } from "@/lib/matchmaking";
-import client from "@/lib/redis";
+import redis from "@/lib/redis";
 
 // Handle POST requests to find or create a match
 export async function POST(req: NextRequest) {
   try {
     const { userId } = await req.json();
-    
+
     // Check if there's an available opponent
     const opponent = await findOpponent();
-    
+
     if (opponent) {
       // Create a new match with the opponent
       const roomId = uuidv4();
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       await saveMatch(match);
       return NextResponse.json({ match });
     }
-    
+
     // If no opponent is found, add the user to the matchmaking queue
     await addToQueue(userId);
     return NextResponse.json({ message: "Added to queue" });
@@ -39,28 +39,33 @@ export async function POST(req: NextRequest) {
 
 // Handle GET requests to retrieve a user's match
 export async function GET(req: NextRequest) {
-  const userId = req.nextUrl.searchParams.get("userId");
-  if (!userId) {
-    return NextResponse.json({ error: "User ID required" }, { status: 400 });
-  }
+  try {
+    const userId = req.nextUrl.searchParams.get("userId");
+    if (!userId) {
+      return NextResponse.json({ error: "User ID required" }, { status: 400 });
+    }
 
-  // Check if user's match was reset
-  const resetKey = `reset:${userId}`;
-  const wasReset = await client.get(resetKey);
-  
-  if (wasReset) {
-    await client.del(resetKey);
-    // Also delete any existing match data
-    await client.del(`match:${userId}`);
-    return NextResponse.json({ status: "reset" });
-  }
+    // Check if user's match was reset
+    const resetKey = `reset:${userId}`;
+    const wasReset = await redis.get(resetKey);
 
-  const match = await getMatch(userId);
-  
-  // If we have no match but there's match data in Redis, clean it up
-  if (!match) {
-    await client.del(`match:${userId}`);
-  }
+    if (wasReset) {
+      await redis.del(resetKey);
+      // Also delete any existing match data
+      await redis.del(`match:${userId}`);
+      return NextResponse.json({ status: "reset" });
+    }
 
-  return NextResponse.json({ match });
+    const match = await getMatch(userId);
+
+    // If we have no match but there's match data in Redis, clean it up
+    if (!match) {
+      await redis.del(`match:${userId}`);
+    }
+
+    return NextResponse.json({ match });
+  } catch (error) {
+    console.error("Matchmaking fetch error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }

@@ -28,6 +28,7 @@ export default function GamePage() {
   // Ensure match exists before destructuring
   const roomId = match?.roomId || '';
   const playerSide = match?.playerSides[userId] as "white" | "black";
+  const remoteUserId = match ? (match.player1 === userId ? match.player2 : match.player1) : null;
 
   // Initiate matchmaking on component mount
   useEffect(() => {
@@ -89,9 +90,9 @@ export default function GamePage() {
               {/* Video call and Next Player button */}
               <div className="flex flex-col h-full">
                 <div className="flex-grow">
-                  <VideoCall 
+                  <VideoCall
                     userId={userId}
-                    remoteUserId={match ? (match.player1 === userId ? match.player2 : match.player1) : null}
+                    remoteUserId={remoteUserId}
                   />
                 </div>
                 <Button 
@@ -105,11 +106,11 @@ export default function GamePage() {
               
               {/* Chessboard component */}
               <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
-                <ChessBoard 
-                  key={gameKey} 
-                  onMove={handleMove} 
-                  roomId={roomId} 
-                  playerSide={playerSide} 
+                <ChessBoard
+                  key={gameKey}
+                  onMove={handleMove}
+                  roomId={roomId}
+                  playerSide={playerSide}
                 />
               </div>
               

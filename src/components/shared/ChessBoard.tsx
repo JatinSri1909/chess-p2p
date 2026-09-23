@@ -8,10 +8,10 @@ import { Socket } from "socket.io-client";
 
 const chess = new Chess();
 
-function ChessBoard({ onMove, roomId, playerSide }: { 
-  onMove?: (move: Move) => void; 
-  roomId: string; 
-  playerSide: 'white' | 'black' 
+function ChessBoard({ onMove, roomId, playerSide }: {
+  onMove?: (move: Move) => void;
+  roomId: string;
+  playerSide: 'white' | 'black'
 }) {
   const [winner, setWinner] = useState<string | null>(null);
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -48,10 +48,10 @@ function ChessBoard({ onMove, roomId, playerSide }: {
     if (!isPlayerTurn || winner) return false;
 
     const movingPiece = gameInstance.get(sourceSquare as Square);
-    
-    const isPawnPromotion = 
-      movingPiece?.type === 'p' && 
-      ((movingPiece.color === 'w' && targetSquare[1] === '8') || 
+
+    const isPawnPromotion =
+      movingPiece?.type === 'p' &&
+      ((movingPiece.color === 'w' && targetSquare[1] === '8') ||
        (movingPiece.color === 'b' && targetSquare[1] === '1'));
 
     try {
@@ -80,7 +80,7 @@ function ChessBoard({ onMove, roomId, playerSide }: {
   return (
     <div className="relative w-full pt-[100%]">
       <div className="absolute inset-0">
-        <Chessboard 
+        <Chessboard
           position={position}
           onPieceDrop={onDrop}
           boardOrientation={playerSide}
@@ -91,7 +91,7 @@ function ChessBoard({ onMove, roomId, playerSide }: {
           showPromotionDialog={true}
           areArrowsAllowed={false}
         />
-        
+
         {winner && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-25 backdrop-blur-sm z-20 rounded-lg">
             <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center text-white w-80 max-w-full mx-4 sm:mx-auto">

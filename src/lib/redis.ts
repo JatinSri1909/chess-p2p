@@ -1,22 +1,9 @@
-import { createClient } from "redis";
+import { Redis } from "@upstash/redis";
 
-// Create a Redis client with configuration from environment variables
-const client = createClient({
-  password: process.env.REDIS_PASSWORD,
-  socket: {
-    host: process.env.REDIS_HOST,
-    port: 11071,
-  },
+// REST-based client: no persistent connection, safe for serverless
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
 
-// Handle Redis client errors
-client.on("error", (err) => console.error("Redis Client Error:", err));
-
-// Connect to Redis if not already connected
-(async () => {
-  if (!client.isOpen) {
-    await client.connect();
-  }
-})();
-
-export default client;
+export default redis;

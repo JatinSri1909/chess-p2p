@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import redis from "@/lib/redis";
+import { SignalingMessage } from "@/lib/signaling";
 
 const SIGNALING_KEY_PREFIX = "signaling:";
 
@@ -18,7 +19,7 @@ export async function POST(req: NextRequest) {
     }
 
     const key = `${SIGNALING_KEY_PREFIX}${recipientId}`;
-    await redis.rPush(key, JSON.stringify(signal));
+    await redis.rpush(key, signal);
     await redis.expire(key, 300); // 5 minutes TTL
 
     return NextResponse.json({ success: true });
@@ -44,15 +45,13 @@ export async function GET(req: NextRequest) {
     }
 
     const key = `${SIGNALING_KEY_PREFIX}${recipientId}`;
-    const messages = await redis.lRange(key, 0, -1);
-    
+    const messages = await redis.lrange<SignalingMessage>(key, 0, -1);
+
     if (messages.length > 0) {
       await redis.del(key);
     }
 
-    return NextResponse.json({
-      messages: messages.map(msg => JSON.parse(msg))
-    });
+    return NextResponse.json({ messages });
   } catch (error) {
     console.error("Error fetching signals:", error);
     return NextResponse.json(
