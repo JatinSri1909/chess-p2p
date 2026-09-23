@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.*
+# pnpm keeps regenerating this locally as a build-approval placeholder;
+# it breaks Vercel's pnpm 9 (treats it as a workspace root needing "packages:")
+pnpm-workspace.yaml
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
