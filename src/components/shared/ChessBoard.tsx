@@ -3,18 +3,18 @@
 import { useState, useEffect } from "react";
 import { Chess, Move, Square } from "chess.js";
 import { Chessboard } from "react-chessboard";
-import io from 'socket.io-client';
-import { Socket } from "socket.io-client";
+import Pusher from "pusher-js";
+import { sendMove } from "@/lib/moves";
 
 const chess = new Chess();
 
-function ChessBoard({ onMove, roomId, playerSide }: {
+function ChessBoard({ onMove, roomId, playerSide, userId }: {
   onMove?: (move: Move) => void;
   roomId: string;
-  playerSide: 'white' | 'black'
+  playerSide: 'white' | 'black';
+  userId: string;
 }) {
   const [winner, setWinner] = useState<string | null>(null);
-  const [socket, setSocket] = useState<Socket | null>(null);
   const [position, setPosition] = useState(chess.fen());
   const [gameInstance] = useState(() => new Chess());
 
@@ -25,22 +25,33 @@ function ChessBoard({ onMove, roomId, playerSide }: {
     setWinner(null);
   }, [roomId, gameInstance]);
 
+  // Subscribe to the room's move channel
   useEffect(() => {
-    const newSocket = io();
-    setSocket(newSocket);
+    if (!roomId) return;
 
-    newSocket.emit('joinRoom', roomId);
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    });
+    const channel = pusher.subscribe(`room-${roomId}`);
 
-    newSocket.on('opponentMove', (moveData) => {
-      gameInstance.move(moveData);
+    channel.bind('opponentMove', (data: { senderId: string; move: Move }) => {
+      if (data.senderId === userId) return; // ignore our own echoed move
+
+      gameInstance.move(data.move);
       setPosition(gameInstance.fen());
-      onMove?.(moveData);
+      onMove?.(data.move);
+
+      if (gameInstance.isCheckmate()) {
+        setWinner(gameInstance.turn() === 'w' ? 'Black' : 'White');
+      }
     });
 
     return () => {
-      newSocket.disconnect();
+      channel.unbind_all();
+      pusher.unsubscribe(`room-${roomId}`);
+      pusher.disconnect();
     };
-  }, [roomId, onMove, gameInstance]);
+  }, [roomId, userId, onMove, gameInstance]);
 
   const isPlayerTurn = gameInstance.turn() === (playerSide === 'white' ? 'w' : 'b');
 
@@ -62,7 +73,7 @@ function ChessBoard({ onMove, roomId, playerSide }: {
       });
 
       if (move) {
-        socket?.emit('playerMove', { roomId, move });
+        sendMove(roomId, userId, move);
         setPosition(gameInstance.fen());
         onMove?.(move);
 

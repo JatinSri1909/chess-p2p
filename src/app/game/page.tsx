@@ -111,6 +111,7 @@ export default function GamePage() {
                   onMove={handleMove}
                   roomId={roomId}
                   playerSide={playerSide}
+                  userId={userId}
                 />
               </div>
               
