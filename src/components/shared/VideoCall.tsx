@@ -24,18 +24,15 @@ function VideoStream({
 
   return (
     <div className="relative w-full pt-[75%]">
-      <div className="absolute inset-0 overflow-hidden rounded-md border border-border bg-secondary">
+      <div className="absolute inset-0">
         <video
           ref={videoRef}
           autoPlay
           playsInline
           muted={label === "You"}
           style={{ transform: "scaleX(-1)" }}
-          className="h-full w-full object-cover"
+          className="w-full h-full object-cover rounded-lg bg-gray-700"
         />
-        <span className="absolute bottom-2 left-2 rounded-md bg-background/70 px-2 py-0.5 text-xs font-medium backdrop-blur">
-          {label}
-        </span>
       </div>
     </div>
   );
@@ -45,9 +42,9 @@ function VideoStream({
 function PlayerPlaceholder({ label }: { label: string }) {
   return (
     <div className="relative w-full pt-[75%]">
-      <div className="absolute inset-0 flex flex-col items-center justify-center rounded-md border border-border bg-secondary p-6">
-        <User className="h-1/3 w-1/3 text-muted-foreground/60" aria-hidden />
-        <span className="mt-3 text-sm font-medium text-muted-foreground">{label}</span>
+      <div className="absolute inset-0 bg-muted border border-border rounded-lg p-6 flex flex-col items-center justify-center">
+        <User className="w-1/3 h-1/3 text-muted-foreground" />
+        <span className="mt-4 text-lg text-muted-foreground">{label}</span>
       </div>
     </div>
   );
@@ -73,7 +70,7 @@ export default function VideoCall({ userId, remoteUserId, className }: VideoCall
   }, [remoteUserId, resetConnection]);
 
   return (
-    <div className={`flex flex-col gap-3 ${className || ""}`}>
+    <div className={`flex flex-col gap-4 ${className || ""}`}>
       <VideoStream stream={localStream} label="You" />
       <VideoStream stream={remoteStream} label="Opponent" />
     </div>

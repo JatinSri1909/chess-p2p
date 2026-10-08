@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import PageBackdrop from '@/components/shared/PageBackdrop';
-import PlayerTag from '@/components/shared/PlayerTag';
 
 export default function GamePage() {
   // State for tracking game moves
@@ -70,60 +69,61 @@ export default function GamePage() {
     setGameKey(prev => prev + 1); // Force chess board reset
   };
 
-  const opponentSide = playerSide ? (playerSide === 'white' ? 'Black' : 'White') : undefined;
-  const ownSide = playerSide ? (playerSide === 'white' ? 'White' : 'Black') : undefined;
-
   return (
     <div className="relative flex min-h-screen flex-col overflow-x-clip bg-background text-foreground">
       <PageBackdrop />
-
-      <div className="relative flex flex-1 flex-col">
+      <div className="relative z-10 flex flex-col flex-grow">
         <Header status={status} matchFound={!!match} />
 
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pb-10 pt-2 sm:px-6">
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)]">
-            {/* Video call and Next Player */}
-            <div className="flex flex-col gap-4">
-              <div className="flex-grow rounded-xl border border-border bg-card p-3 shadow-2xl shadow-black/40 sm:p-4">
-                <VideoCall userId={userId} remoteUserId={remoteUserId} />
-              </div>
-              <Button
-                onClick={handleNextPlayer}
-                className="h-12 w-full gap-2 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30"
-              >
-                Next Player
-                <ChevronRight aria-hidden />
-              </Button>
-            </div>
+        <main className="flex-grow flex items-center justify-center pb-3 px-0 sm:px-4">
+          <div className="bg-card/40 border-2 border-border rounded-lg w-full max-w-[1400px]">
+            {/* Grid layout for video call, chessboard, and moves list */}
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr,2.1fr,1fr] gap-3 lg:gap-4 p-2 sm:p-4 lg:p-6 h-full">
 
-            {/* Chessboard */}
-            <div className="self-start rounded-xl border border-border bg-card p-3 shadow-2xl shadow-black/40 sm:p-4">
-              <div className="mb-3">
-                <PlayerTag name="Opponent" side={opponentSide} />
+              {/* Video call and Next Player button */}
+              <div className="flex flex-col h-full">
+                <div className="flex-grow">
+                  <VideoCall
+                    userId={userId}
+                    remoteUserId={remoteUserId}
+                  />
+                </div>
+                <Button
+                  onClick={handleNextPlayer}
+                  className="mt-4 aspect-square lg:aspect-auto w-full text-[2rem]"
+                >
+                  <ChevronRight className="mr-2" style={{ width: "32px", height: "32px" }} />
+                  <span className="hidden lg:inline">Next Player</span>
+                </Button>
               </div>
-              <ChessBoard
-                key={gameKey}
-                onMove={handleMove}
-                roomId={roomId}
-                playerSide={playerSide}
-                userId={userId}
-              />
-              <div className="mt-3">
-                <PlayerTag name="You" side={ownSide} />
-              </div>
-            </div>
 
-            {/* Moves list and New Match */}
-            <div className="flex flex-col gap-4">
-              <MovesList moves={moves} />
-              <Button
-                variant="outline"
-                onClick={handleNewMatch}
-                className="h-12 w-full gap-2 text-base"
-              >
-                <Plus aria-hidden />
-                New Match
-              </Button>
+              {/* Chessboard component */}
+              <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
+                <ChessBoard
+                  key={gameKey}
+                  onMove={handleMove}
+                  roomId={roomId}
+                  playerSide={playerSide}
+                  userId={userId}
+                />
+              </div>
+
+              {/* Moves list and action buttons */}
+              <div className="flex flex-col h-full">
+                <div className="flex-grow overflow-y-auto">
+                  <MovesList moves={moves} />
+                </div>
+                <div className="grid grid-cols-1 gap-2 lg:flex lg:flex-col mt-4">
+                  <Button
+                    variant="outline"
+                    onClick={handleNewMatch}
+                    className="aspect-square lg:aspect-auto w-full"
+                  >
+                    <Plus className="mr-2" style={{ width: "32px", height: "32px" }} />
+                    <span className="hidden lg:inline text-[2rem]">New Match</span>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </main>
