@@ -1,7 +1,7 @@
 'use client';
 
 import { Chessboard } from 'react-chessboard';
-import { User } from 'lucide-react';
+import PlayerTag from '@/components/shared/PlayerTag';
 
 /**
  * A static preview of what a match looks like, using the same board the
@@ -18,23 +18,6 @@ const lastMoveRing = {
   boxShadow: 'inset 0 0 0 3px hsl(var(--primary))',
 };
 
-function Player({ name, side, active }: { name: string; side: string; active?: boolean }) {
-  return (
-    <div className="flex items-center gap-3">
-      <span className="grid h-9 w-9 place-items-center rounded-md border border-border bg-secondary text-muted-foreground">
-        <User className="h-4 w-4" aria-hidden />
-      </span>
-      <span className="leading-tight">
-        <span className="block text-sm font-medium">{name}</span>
-        <span className="block text-xs text-muted-foreground">
-          {side}
-          {active && <span className="text-primary"> · to move</span>}
-        </span>
-      </span>
-    </div>
-  );
-}
-
 export default function LandingBoard() {
   return (
     <figure className="w-full max-w-[30rem]">
@@ -48,7 +31,7 @@ export default function LandingBoard() {
         </div>
 
         <div className="mb-3">
-          <Player name="Opponent" side="Black" active />
+          <PlayerTag name="Opponent" side="Black" active />
         </div>
 
         <div className="overflow-hidden rounded-md" aria-hidden>
@@ -65,7 +48,7 @@ export default function LandingBoard() {
         </div>
 
         <div className="mt-3 flex items-end justify-between gap-4">
-          <Player name="You" side="White" />
+          <PlayerTag name="You" side="White" />
           <p className="pb-0.5 text-right text-xs text-muted-foreground">
             {MOVES.map((m, i) => (
               <span key={m + i}>

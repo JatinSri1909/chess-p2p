@@ -90,24 +90,24 @@ function ChessBoard({ onMove, roomId, playerSide, userId }: {
 
   return (
     <div className="relative w-full pt-[100%]">
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 overflow-hidden rounded-md">
         <Chessboard
           position={position}
           onPieceDrop={onDrop}
           boardOrientation={playerSide}
-          customBoardStyle={{
-            borderRadius: '0.5rem',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
-          }}
+          customDarkSquareStyle={{ backgroundColor: 'hsl(var(--primary) / 0.5)' }}
+          customLightSquareStyle={{ backgroundColor: 'hsl(var(--foreground) / 0.78)' }}
           showPromotionDialog={true}
           areArrowsAllowed={false}
         />
 
         {winner && (
-          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-25 backdrop-blur-sm z-20 rounded-lg">
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center text-white w-80 max-w-full mx-4 sm:mx-auto">
-              <h2 className="text-2xl font-bold mb-4">{winner} wins!</h2>
-              <p className="mb-4">Congratulations to the winner!</p>
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/60 backdrop-blur-sm">
+            <div className="mx-4 w-80 max-w-full rounded-xl border border-border bg-card p-6 text-center shadow-2xl shadow-black/40">
+              <h2 className="text-2xl font-semibold tracking-tight">
+                <span className="text-primary">{winner}</span> wins!
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">Checkmate. Hit Next Player to find a new opponent.</p>
             </div>
           </div>
         )}

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Github, SkipForward, UserX, Users, Video, Zap } from 'lucide-react';
 import Footer from '@/components/shared/Footer';
 import LandingBoard from '@/components/shared/LandingBoard';
+import PageBackdrop from '@/components/shared/PageBackdrop';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -55,30 +56,12 @@ const FEATURES = [
   },
 ] as const;
 
-// Faint chessboard checker behind the top of the page, faded out with a mask.
-const checkerBackdrop = {
-  backgroundImage:
-    'linear-gradient(45deg, hsl(var(--foreground) / 0.04) 25%, transparent 25%, transparent 75%, hsl(var(--foreground) / 0.04) 75%), linear-gradient(45deg, hsl(var(--foreground) / 0.04) 25%, transparent 25%, transparent 75%, hsl(var(--foreground) / 0.04) 75%)',
-  backgroundSize: '72px 72px',
-  backgroundPosition: '0 0, 36px 36px',
-  maskImage: 'radial-gradient(ellipse 70% 100% at 50% 0%, black 20%, transparent 75%)',
-  WebkitMaskImage: 'radial-gradient(ellipse 70% 100% at 50% 0%, black 20%, transparent 75%)',
-} as const;
-
 const rise = 'animate-fade-up [animation-fill-mode:backwards] motion-reduce:animate-none';
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-x-clip bg-background">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[44rem]"
-        style={checkerBackdrop}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[44rem] bg-[radial-gradient(ellipse_60%_50%_at_75%_30%,hsl(var(--primary)/0.14),transparent)]"
-      />
+      <PageBackdrop />
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6">
         {/* Nav */}
