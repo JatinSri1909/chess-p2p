@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addToQueue, findOpponent, saveMatch, getMatch } from "@/lib/matchmaking";
-import { v4 as uuidv4 } from 'uuid';
-import { Match } from "@/lib/matchmaking";
-import redis from "@/lib/redis";
+import { v4 as uuidv4 } from "uuid";
+import redis from "@/common/libs/redis";
+import {
+  addToQueue,
+  findOpponent,
+  saveMatch,
+  getMatch,
+} from "@/modules/matchmaking/libs";
+import { type Match } from "@/modules/matchmaking/types";
 
 // Handle POST requests to find or create a match
 export async function POST(req: NextRequest) {
@@ -20,8 +25,8 @@ export async function POST(req: NextRequest) {
         player2: userId,
         roomId,
         playerSides: {
-          [opponent]: 'white',
-          [userId]: 'black',
+          [opponent]: "white",
+          [userId]: "black",
         },
       };
       await saveMatch(match);
