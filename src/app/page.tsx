@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Github, SkipForward, UserX, Users, Video, Zap } from 'lucide-react';
+import { ArrowRight, Github } from 'lucide-react';
 import Footer from '@/components/shared/Footer';
 import GameDemo from '@/components/shared/GameDemo';
 import PageBackdrop from '@/components/shared/PageBackdrop';
@@ -25,31 +25,31 @@ const STEPS = [
 
 const FEATURES = [
   {
-    icon: Zap,
+    glyph: '\u265E\uFE0E', // knight
     title: 'Instant pairing',
     body: 'Like Omegle for chess players. Connect with a random opponent from anywhere in the world the moment one is waiting.',
     span: 'md:col-span-4',
   },
   {
-    icon: UserX,
+    glyph: '\u265F\uFE0E', // pawn
     title: 'No sign-up',
     body: 'Jump straight into the action. No registration needed.',
     span: 'md:col-span-2',
   },
   {
-    icon: Video,
+    glyph: '\u265C\uFE0E', // rook
     title: 'Face to face',
     body: 'A peer-to-peer video call runs next to the board, so you play a person, not a username.',
     span: 'md:col-span-2',
   },
   {
-    icon: Users,
+    glyph: '\u265B\uFE0E', // queen
     title: 'All skill levels',
     body: 'From beginners to masters, find your perfect match.',
     span: 'md:col-span-2',
   },
   {
-    icon: SkipForward,
+    glyph: '\u265D\uFE0E', // bishop
     title: 'One click to the next game',
     body: 'Not feeling this opponent? Move on without leaving the page.',
     span: 'md:col-span-2',
@@ -184,16 +184,16 @@ export default function Home() {
           </h2>
 
           <ul className="mt-12 grid gap-4 md:grid-cols-6">
-            {FEATURES.map(({ icon: Icon, title, body, span }) => (
+            {FEATURES.map(({ glyph, title, body, span }) => (
               <li
                 key={title}
                 className={cn(
-                  'group rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/40',
+                  'rounded-xl border border-border p-6 transition-colors hover:border-primary/40',
                   span,
                 )}
               >
-                <span className="grid h-9 w-9 place-items-center rounded-md border border-border bg-secondary text-primary transition-colors group-hover:border-primary/40">
-                  <Icon className="h-4 w-4" aria-hidden />
+                <span aria-hidden className="block text-4xl leading-none text-primary">
+                  {glyph}
                 </span>
                 <h3 className="mt-5 text-lg font-semibold tracking-tight">{title}</h3>
                 <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
