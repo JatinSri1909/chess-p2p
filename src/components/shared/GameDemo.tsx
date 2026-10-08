@@ -151,7 +151,7 @@ export default function GameDemo() {
 
         <div className="grid gap-3 lg:grid-cols-[1fr_1.9fr_1fr] lg:gap-4">
           {/* Video call + Next Player */}
-          <div className="order-2 flex flex-col gap-3 lg:order-1">
+          <div className="flex flex-col gap-3">
             <div className="grid flex-grow grid-cols-2 content-start gap-3 lg:grid-cols-1">
               <VideoTile label="Opponent" src={PLAYER_IMAGES.opponent} active={!finished && !whiteToMove} />
               <VideoTile label="You" src={PLAYER_IMAGES.you} active={!finished && whiteToMove} />
@@ -163,7 +163,7 @@ export default function GameDemo() {
           </div>
 
           {/* Board */}
-          <div className="order-1 lg:order-2">
+          <div>
             <div className="overflow-hidden rounded-md">
               <Chessboard
                 id="hero-demo"
@@ -179,7 +179,7 @@ export default function GameDemo() {
           </div>
 
           {/* Moves + New Match */}
-          <div className="order-3 flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
             <div className="flex h-44 flex-col rounded-lg border border-border bg-muted p-3 lg:h-auto lg:flex-1">
               <h2 className="text-sm font-semibold">Moves</h2>
               {/* Absolutely positioned so a long game scrolls here instead of

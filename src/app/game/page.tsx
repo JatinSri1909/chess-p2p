@@ -90,10 +90,10 @@ export default function GamePage() {
                 </div>
                 <Button
                   onClick={handleNextPlayer}
-                  className="mt-4 aspect-square lg:aspect-auto w-full text-[2rem]"
+                  className="mt-4 h-12 w-full text-lg lg:h-[4rem] lg:text-[2rem]"
                 >
-                  <ChevronRight className="mr-2" style={{ width: "32px", height: "32px" }} />
-                  <span className="hidden lg:inline">Next Player</span>
+                  <ChevronRight className="mr-2 !h-6 !w-6 lg:!h-8 lg:!w-8" />
+                  <span>Next Player</span>
                 </Button>
               </div>
 
@@ -117,10 +117,10 @@ export default function GamePage() {
                   <Button
                     variant="outline"
                     onClick={handleNewMatch}
-                    className="aspect-square lg:aspect-auto w-full"
+                    className="h-12 w-full text-lg lg:h-[4rem]"
                   >
-                    <Plus className="mr-2" style={{ width: "32px", height: "32px" }} />
-                    <span className="hidden lg:inline text-[2rem]">New Match</span>
+                    <Plus className="mr-2 !h-6 !w-6 lg:!h-8 lg:!w-8" />
+                    <span className="lg:text-[2rem]">New Match</span>
                   </Button>
                 </div>
               </div>

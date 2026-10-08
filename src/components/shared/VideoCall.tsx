@@ -42,9 +42,9 @@ function VideoStream({
 function PlayerPlaceholder({ label }: { label: string }) {
   return (
     <div className="relative w-full pt-[75%]">
-      <div className="absolute inset-0 bg-muted border border-border rounded-lg p-6 flex flex-col items-center justify-center">
+      <div className="absolute inset-0 bg-muted border border-border rounded-lg p-3 lg:p-6 flex flex-col items-center justify-center">
         <User className="w-1/3 h-1/3 text-muted-foreground" />
-        <span className="mt-4 text-lg text-muted-foreground">{label}</span>
+        <span className="mt-2 text-sm lg:mt-4 lg:text-lg text-muted-foreground">{label}</span>
       </div>
     </div>
   );
@@ -70,7 +70,7 @@ export default function VideoCall({ userId, remoteUserId, className }: VideoCall
   }, [remoteUserId, resetConnection]);
 
   return (
-    <div className={`flex flex-col gap-4 ${className || ""}`}>
+    <div className={`grid grid-cols-2 gap-3 lg:flex lg:flex-col lg:gap-4 ${className || ""}`}>
       <VideoStream stream={localStream} label="You" />
       <VideoStream stream={remoteStream} label="Opponent" />
     </div>
