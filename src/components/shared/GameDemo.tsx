@@ -102,7 +102,17 @@ function VideoTile({
 export default function GameDemo() {
   const [ply, setPly] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [visible, setVisible] = useState(false); // false while hidden below the lg breakpoint
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // The hero hides this below the lg breakpoint, so don't animate while hidden.
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)');
+    setVisible(query.matches);
+    const onChange = (e: MediaQueryListEvent) => setVisible(e.matches);
+    query.addEventListener('change', onChange);
+    return () => query.removeEventListener('change', onChange);
+  }, []);
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -114,6 +124,7 @@ export default function GameDemo() {
 
   // Play the game one ply at a time, pause on the checkmate, then start over.
   useEffect(() => {
+    if (!visible) return;
     if (reduceMotion) {
       setPly(LAST);
       return;
@@ -121,7 +132,7 @@ export default function GameDemo() {
     const delay = ply === 0 ? START_PAUSE_MS : ply === LAST ? END_PAUSE_MS : MOVE_MS;
     const timer = setTimeout(() => setPly((p) => (p >= LAST ? 0 : p + 1)), delay);
     return () => clearTimeout(timer);
-  }, [ply, reduceMotion]);
+  }, [ply, reduceMotion, visible]);
 
   // Keep the latest move in view inside the list (never scrolls the page).
   useEffect(() => {

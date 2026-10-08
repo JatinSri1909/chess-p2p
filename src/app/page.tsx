@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Github } from 'lucide-react';
 import Footer from '@/components/shared/Footer';
+import FeatureCard from '@/components/shared/FeatureCard';
 import GameDemo from '@/components/shared/GameDemo';
 import PageBackdrop from '@/components/shared/PageBackdrop';
 import { buttonVariants } from '@/components/ui/button';
@@ -150,7 +151,8 @@ export default function Home() {
             Free. Works in your browser. Allow camera access when asked.
           </p>
 
-          <div className={cn(rise, 'mt-14 sm:mt-16')} style={{ animationDelay: '340ms' }}>
+          {/* The mini /game isn't laid out for phones or tablets yet, so it only shows from lg up. */}
+          <div className={cn(rise, 'mt-14 hidden lg:block')} style={{ animationDelay: '340ms' }}>
             <GameDemo />
           </div>
         </section>
@@ -185,21 +187,7 @@ export default function Home() {
 
           <ul className="mt-12 grid gap-4 md:grid-cols-6">
             {FEATURES.map(({ glyph, title, body, span }) => (
-              <li
-                key={title}
-                className={cn(
-                  'rounded-xl border border-border p-6 transition-colors hover:border-primary/40',
-                  span,
-                )}
-              >
-                <span aria-hidden className="block text-4xl leading-none text-primary">
-                  {glyph}
-                </span>
-                <h3 className="mt-5 text-lg font-semibold tracking-tight">{title}</h3>
-                <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-                  {body}
-                </p>
-              </li>
+              <FeatureCard key={title} glyph={glyph} title={title} body={body} className={span} />
             ))}
           </ul>
         </section>
