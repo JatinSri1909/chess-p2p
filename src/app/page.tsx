@@ -151,8 +151,7 @@ export default function Home() {
             Free. Works in your browser. Allow camera access when asked.
           </p>
 
-          {/* The mini /game isn't laid out for phones or tablets yet, so it only shows from lg up. */}
-          <div className={cn(rise, 'mt-14 hidden lg:block')} style={{ animationDelay: '340ms' }}>
+          <div className={cn(rise, 'mt-14 sm:mt-16')} style={{ animationDelay: '340ms' }}>
             <GameDemo />
           </div>
         </section>
