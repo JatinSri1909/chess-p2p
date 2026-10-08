@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import pusher from "@/lib/pusher-server";
+import pusher from "@/common/libs/pusher-server";
 
 // Handle POST requests to broadcast a move to the room
 export async function POST(req: NextRequest) {

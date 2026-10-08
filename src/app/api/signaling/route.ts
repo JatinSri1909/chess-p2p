@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import redis from "@/lib/redis";
-import { SignalingMessage } from "@/lib/signaling";
+import redis from "@/common/libs/redis";
+import { type SignalingMessage } from "@/modules/video/types";
 
 const SIGNALING_KEY_PREFIX = "signaling:";
 
 // Handle POST requests to send signaling messages
 export async function POST(req: NextRequest) {
   try {
-    // Parse the signaling message from the request
     const signal = await req.json();
-    const recipientId = signal.data.recipientId;
+    const recipientId = signal.data?.recipientId;
 
     if (!recipientId) {
       return NextResponse.json(
