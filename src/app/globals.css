@@ -103,3 +103,19 @@
 .animate-fade-in {
   animation: fade-in 0.6s ease-out;
 }
+
+/* "Why play here" card hover: green to black, with film grain on top. */
+.feature-glow {
+  background-image: linear-gradient(to bottom, hsl(var(--primary) / 0.5), hsl(0 0% 0%));
+}
+
+.feature-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* hard-light keeps the grain visible on the black end of the gradient,
+     where overlay would fade it out. Raise or lower opacity to taste. */
+  opacity: 0.45;
+  mix-blend-mode: hard-light;
+}

@@ -12,7 +12,7 @@ import { Plus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
-import { useRouter } from 'next/navigation';
+import PageBackdrop from '@/components/shared/PageBackdrop';
 
 export default function GamePage() {
   // State for tracking game moves
@@ -69,24 +69,17 @@ export default function GamePage() {
     setGameKey(prev => prev + 1); // Force chess board reset
   };
 
-  const router = useRouter();
-
-  // Handle ChessP2P click to redirect to homepage
-  const handleChessP2PClick = () => {
-    router.push('/'); // Redirect to homepage
-  };
-
   return (
-    <div className="min-h-screen flex flex-col bg-black/20 text-white relative">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,hsl(var(--primary)/_0.20),transparent_70%)]" />
+    <div className="relative flex min-h-screen flex-col overflow-x-clip bg-background text-foreground">
+      <PageBackdrop />
       <div className="relative z-10 flex flex-col flex-grow">
-        <Header status={status} matchFound={!!match} onChessP2PClick={handleChessP2PClick} />
-        
+        <Header status={status} matchFound={!!match} />
+
         <main className="flex-grow flex items-center justify-center pb-3 px-0 sm:px-4">
-          <div className="bg-black/20 border-2 border-zinc-800 rounded-lg w-full max-w-[1400px]">
+          <div className="bg-card/40 border-2 border-border rounded-lg w-full max-w-[1400px]">
             {/* Grid layout for video call, chessboard, and moves list */}
             <div className="grid grid-cols-1 lg:grid-cols-[1.2fr,2.1fr,1fr] gap-3 lg:gap-4 p-2 sm:p-4 lg:p-6 h-full">
-              
+
               {/* Video call and Next Player button */}
               <div className="flex flex-col h-full">
                 <div className="flex-grow">
@@ -95,15 +88,15 @@ export default function GamePage() {
                     remoteUserId={remoteUserId}
                   />
                 </div>
-                <Button 
+                <Button
                   onClick={handleNextPlayer}
-                  className="mt-4 bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white aspect-square lg:aspect-auto w-full text-[2rem]"
+                  className="mt-4 h-12 w-full text-lg lg:h-[4rem] lg:text-[2rem]"
                 >
-                  <ChevronRight className="mr-2" style={{ width: "32px", height: "32px" }} />
-                  <span className="hidden lg:inline">Next Player</span>
+                  <ChevronRight className="mr-2 !h-6 !w-6 lg:!h-8 lg:!w-8" />
+                  <span>Next Player</span>
                 </Button>
               </div>
-              
+
               {/* Chessboard component */}
               <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px] lg:min-h-[500px]">
                 <ChessBoard
@@ -114,26 +107,27 @@ export default function GamePage() {
                   userId={userId}
                 />
               </div>
-              
+
               {/* Moves list and action buttons */}
               <div className="flex flex-col h-full">
                 <div className="flex-grow overflow-y-auto">
                   <MovesList moves={moves} />
                 </div>
                 <div className="grid grid-cols-1 gap-2 lg:flex lg:flex-col mt-4">
-                  <Button 
+                  <Button
+                    variant="outline"
                     onClick={handleNewMatch}
-                    className="bg-[#2a2a2a] hover:bg-[#3a3a3a] text-white aspect-square lg:aspect-auto w-full"
+                    className="h-12 w-full text-lg lg:h-[4rem]"
                   >
-                    <Plus className="mr-2" style={{ width: "32px", height: "32px" }} />
-                    <span className="hidden lg:inline text-[2rem]">New Match</span>
+                    <Plus className="mr-2 !h-6 !w-6 lg:!h-8 lg:!w-8" />
+                    <span className="lg:text-[2rem]">New Match</span>
                   </Button>
                 </div>
               </div>
             </div>
           </div>
         </main>
-        
+
         <Footer />
       </div>
     </div>

@@ -1,19 +1,29 @@
+const LINKS = [
+  ['Twitter', 'https://x.com/JatinSriva36542'],
+  ['Portfolio', 'https://jatin-srivastava.vercel.app'],
+  ['GitHub', 'https://github.com/JatinSri1909/chess-p2p'],
+] as const;
+
 export default function Footer() {
   return (
-    <footer className="py-6 border-t border-border bg-background">
-      <div className="container mx-auto px-4 text-center text-muted-foreground flex flex-col gap-2">
-        <p>© 2025 Chess P2P. All rights reserved.</p>
-        <span className="block py-1">
-          Made with ❤️ by{' '}
-          <a 
-            href="https://x.com/JatinSriva36542?t=jInLA9mjPJc3klWMBmAhDg&s=09" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="text-primary hover:underline"
-          >
-            Jatin
-          </a>
-        </span>
+    <footer className="border-t border-border bg-background">
+      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-6 text-sm text-muted-foreground sm:flex-row sm:px-6">
+        <p>
+          Made with <span aria-label="love">❤️</span> by Jatin
+        </p>
+        <nav aria-label="Author links" className="flex items-center gap-5">
+          {LINKS.map(([name, href]) => (
+            <a
+              key={name}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-primary"
+            >
+              {name} <span aria-hidden>↗</span>
+            </a>
+          ))}
+        </nav>
       </div>
     </footer>
   );
